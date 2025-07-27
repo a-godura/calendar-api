@@ -287,5 +287,10 @@ def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'service': 'calendar-api'})
 
+@app.route('/robots.txt', methods=['GET'])
+def robots_txt():
+    """Robots.txt to allow web access"""
+    return "User-agent: *\nAllow: /", 200, {'Content-Type': 'text/plain'}
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
