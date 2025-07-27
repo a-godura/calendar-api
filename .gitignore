@@ -1,0 +1,19 @@
+# Sensitive files - NEVER commit these
+credentials.json
+token.pickle
+.env
+credentials_oneline.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
