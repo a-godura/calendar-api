@@ -7,8 +7,6 @@ import pickle
 import os
 import json
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
-load_dotenv()
 
 app = Flask(__name__)
 
@@ -69,14 +67,16 @@ def get_calendar_service():
             else:
                 raise Exception("No credentials found. Set GOOGLE_CREDENTIALS environment variable or provide credentials.json")
             
-            # For development, run local server. For production, this won't work.
+            # Check if we're in development (has local credentials.json)
             if os.path.exists('credentials.json'):
+                # Development: run local OAuth flow
                 creds = flow.run_local_server(port=0)
                 # Save credentials for next run (development only)
                 with open('token.pickle', 'wb') as token:
                     pickle.dump(creds, token)
             else:
-                raise Exception("Cannot run OAuth flow in production without local credentials.json")
+                # Production: we need a pre-authenticated token
+                raise Exception("Production deployment requires GOOGLE_TOKEN environment variable with valid refresh token. Please authenticate locally first and convert token.pickle to GOOGLE_TOKEN environment variable.")
     
     return build('calendar', 'v3', credentials=creds)
 
